@@ -95,7 +95,7 @@
     </nav>
 
     <div id="cont">
-      <h1>Translate API</h1>
+      <h1>Translate - Your Thoughts</h1>
       <div id="box">
         <div>
           <p>
@@ -105,10 +105,7 @@
             </span>
           </p>
 
-          <textarea
-            id="data"
-            oninput="debounce(translate_text,1000)"
-          ></textarea>
+          <textarea id="data" oninput="debounce(translate_text,500)"></textarea>
         </div>
         <div>
           <p>
@@ -150,6 +147,7 @@
     }
   }
 
+  // function which provide country name with value in selectbox as option
   async function getCountry(selectb, n) {
     let res = await fetch("https://libretranslate.de/languages");
     let data = await res.json();
