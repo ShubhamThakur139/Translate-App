@@ -5,85 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Translate-what you want to say in other languauge</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        -webkit-font-smoothing: antialiased;
-        font-family: "Roboto", sans-serif;
-      }
-      nav {
-        width: 100%;
-        height: 60px;
-        background: #42a5f5;
-        position: fixed;
-      }
-      #navb {
-        width: 70%;
-        margin: auto;
-        display: flex;
-        justify-content: space-between;
-        padding: 1.2%;
-        color: white;
-        align-items: center;
-      }
-
-      #cont {
-        padding-top: 100px;
-        width: 70%;
-        margin: auto;
-        text-align: center;
-      }
-      #cont h1 {
-        font-size: 38px;
-        font-weight: 400;
-        color: rgba(0, 0, 0, 0.788);
-        letter-spacing: 0.8px;
-      }
-      #box {
-        margin-top: 4%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        height: 280px;
-        /* border: 1px solid black; */
-      }
-      #box > div {
-        width: 48%;
-        text-align: left;
-        height: 100%;
-      }
-      #box > div p {
-        font-size: 15px;
-        margin-bottom: 1.5%;
-      }
-      textarea {
-        width: 100%;
-        height: 100%;
-        resize: none;
-        padding: 6%;
-        font-size: 22px;
-        font-weight: 500;
-        background-color: #efefef;
-        outline: none;
-        border: 1px solid #ccc;
-      }
-      select::-ms-expand {
-        display: none;
-      }
-      select {
-        cursor: pointer;
-        color: rgba(0, 0, 0, 0.719);
-        font-weight: 600;
-        -webkit-appearance: none;
-        appearance: none;
-        outline: none;
-        border: none;
-        border-bottom: 2px solid black;
-      }
-    </style>
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
     <nav>
@@ -105,7 +27,10 @@
             </span>
           </p>
 
-          <textarea id="data" oninput="debounce(translate_text,1000)"></textarea>
+          <textarea
+            id="data"
+            oninput="debounce(translate_text,1000)"
+          ></textarea>
         </div>
         <div>
           <p>
@@ -118,107 +43,7 @@
         </div>
       </div>
     </div>
+
+    <script src="./js/app.js"></script>
   </body>
 </html>
-
-<script>
-  let timerId;
-  async function translate_text() {
-    let data = document.getElementById("data").value;
-    let sel_lang = document.querySelector("#lang").value;
-    let sel_lang_from = document.querySelector("#langfrom").value;
-    let show_out = document.getElementById("show_out");
-    if (data.length <= 0) {
-      show_out.innerText = "";
-      return false;
-    } else {
-      const res = await fetch("https://libretranslate.de/translate", {
-        method: "POST",
-        body: JSON.stringify({
-          q: `${data}`,
-          source: `${sel_lang_from}`,
-          target: `${sel_lang}`,
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      let get_data = await res.json();
-      show_out.textContent = get_data.translatedText;
-    }
-  }
-
-  // function which provide country name with value in selectbox as option
-  async function getCountry(selectb, n) {
-    let res = await fetch("https://libretranslate.de/languages");
-    let data = await res.json();
-    data.forEach(({ code, name }) => {
-      let opt = document.createElement("option");
-      opt.setAttribute("value", code);
-      if (n === 0 && code === "hi") {
-        console.log("hi");
-        opt.setAttribute("selected", "");
-      }
-      opt.innerText = name;
-      selectb.append(opt);
-    });
-  }
-
-  let selectbox = document.getElementById("lang");
-  let selectbox1 = document.getElementById("langfrom");
-
-  getCountry(selectbox, 0);
-  getCountry(selectbox1, 1);
-
-  async function getlan() {
-    let sel_lang = document.getElementById("lang").value;
-    let sel_lang_from = document.querySelector("#langfrom").value;
-    let data = document.getElementById("data").value;
-    let show_out = document.getElementById("show_out");
-
-    if (data.length > 0) {
-      const res = await fetch("https://libretranslate.de/translate", {
-        method: "POST",
-        body: JSON.stringify({
-          q: `${data}`,
-          source: `${sel_lang_from}`,
-          target: `${sel_lang}`,
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      let get_data = await res.json();
-      show_out.textContent = get_data.translatedText;
-    }
-  }
-
-  async function getlan1() {
-    let sel_lang = document.getElementById("lang").value;
-    let sel_lang_from = document.querySelector("#langfrom").value;
-    let data = document.getElementById("data").value;
-    let show_out = document.getElementById("show_out").value;
-    if (data.length > 0) {
-      const res = await fetch("https://libretranslate.de/translate", {
-        method: "POST",
-        body: JSON.stringify({
-          q: `${show_out}`,
-          source: `${sel_lang}`,
-          target: `${sel_lang_from}`,
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      let get_data = await res.json();
-      document.getElementById("data").value = get_data.translatedText;
-    }
-  }
-
-  function debounce(func, delay) {
-    if (timerId) {
-      clearTimeout(timerId);
-    }
-
-    timerId = setTimeout(() => {
-      func();
-    }, delay);
-  }
-</script>
