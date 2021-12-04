@@ -32,7 +32,7 @@ nav {
 
 #cont h1 {
     font-size: 38px;
-    font-weight: 400;
+    font-weight: 600;
     color: rgba(0, 0, 0, 0.788);
     letter-spacing: 0.8px;
 }
@@ -83,4 +83,35 @@ select {
     outline: none;
     border: none;
     border-bottom: 2px solid black;
+}
+
+
+@media only screen and (max-width: 680px) {
+    nav {
+        display: grid;
+        place-items: center;
+    }
+
+    #navb {
+        width: 94%;
+    }
+
+    #box {
+        flex-direction: column;
+        height: 450px;
+    }
+
+    #box div {
+        margin-bottom: 40px;
+        width: 80%;
+        height: 100%;
+    }
+
+    #cont {
+        width: 90%;
+    }
+
+    #cont h1 {
+        font-size: 22px;
+    }
 }
