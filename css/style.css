@@ -98,7 +98,7 @@ select {
 
     #box {
         flex-direction: column;
-        height: 450px;
+        height: 250px;
     }
 
     #box div {
